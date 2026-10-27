@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EntryWise — Intelligent Event Entry & Crowd Management</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css?v=outseta">
+</head>
+<body class="outseta-theme">
+    <div class="app-layout">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="brand">
+                    <div class="brand-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+                            <path d="M9 10h6"/>
+                            <path d="M12 7v6"/>
+                        </svg>
+                    </div>
+                    <div class="brand-text">
+                        <span class="brand-title">EntryWise</span>
+                        <span class="brand-badge">PRO OPS</span>
+                    </div>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <div class="nav-section-label">OPERATIONS</div>
+                <button class="nav-item active" id="nav-dashboard" data-view="dashboard">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                    <span>Operations Hub</span>
+                </button>
+                <button class="nav-item" id="nav-events" data-view="events">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                    <span>Event Overview</span>
+                </button>
+
+                <div class="nav-section-label">GATE STAFF ACTIONS</div>
+                <button class="nav-item" id="nav-validation" data-view="validation">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                    <span>Ticket Validator</span>
+                    <span class="nav-badge hot">FAST</span>
+                </button>
+                <button class="nav-item" id="nav-seating" data-view="seating">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 11V7a5 5 0 0 1 10 0v4"/><rect x="3" y="11" width="18" height="11" rx="2"/></svg>
+                    <span>Seating Layout</span>
+                </button>
+                <button class="nav-item" id="nav-gates" data-view="gates">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    <span>Gate & Queue Lanes</span>
+                </button>
+                <button class="nav-item" id="nav-history" data-view="history">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    <span>Admission History</span>
+                </button>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button class="btn btn-secondary btn-block" id="btn-reset-scenario">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></svg>
+                    <span class="btn-text">Reset Demo Scenario</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Top Navigation Bar -->
+            <header class="topbar">
+                <div class="topbar-left">
+                    <button class="mobile-toggle" id="btn-mobile-toggle" aria-label="Toggle navigation">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+                    </button>
+                    <div class="event-context-selector">
+                        <label for="event-select" class="context-label">ACTIVE EVENT:</label>
+                        <select id="event-select" class="event-dropdown">
+                            <!-- Populated dynamically -->
+                        </select>
+                    </div>
+                </div>
+
+                <div class="topbar-right">
+                    <div class="live-pill">
+                        <span class="pulse-dot"></span>
+                        <span id="active-event-status">ADMISSION OPEN</span>
+                    </div>
+                    <div class="time-display" id="system-time">--:--:-- UTC</div>
+                </div>
+            </header>
+
+            <div class="content-container">
+                <!-- VIEW 1: OPERATIONS DASHBOARD -->
+                <section class="view-panel active" id="view-dashboard">
+                    <div class="view-header">
+                        <div>
+                            <h1 class="view-title">Operations Command Center</h1>
+                            <p class="view-subtitle">Live admission throughput, queue latency, and venue occupancy telemetry.</p>
+                        </div>
+                        <div class="header-actions">
+                            <button class="btn btn-primary" id="btn-refresh-dashboard">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+                                <span class="btn-text">Refresh Telemetry</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Metrics Grid -->
+                    <div class="metrics-grid">
+                        <div class="metric-card">
+                            <div class="metric-header">
+                                <span class="metric-label">TOTAL CAPACITY</span>
+                                <span class="metric-icon blue">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+                                </span>
+                            </div>
+                            <div class="metric-value" id="metric-total-capacity">--</div>
+                            <div class="metric-footer">Configured venue admission limit</div>
+                        </div>
+
+                        <div class="metric-card highlight-coral">
+                            <div class="metric-header">
+                                <span class="metric-label">ADMITTED ATTENDEES</span>
+                                <span class="metric-icon coral">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                                </span>
+                            </div>
+                            <div class="metric-value" id="metric-admitted-count">--</div>
+                            <div class="metric-footer" id="metric-occupancy-rate">0.0% occupancy</div>
+                        </div>
+
+                        <div class="metric-card">
+                            <div class="metric-header">
+                                <span class="metric-label">REMAINING CAPACITY</span>
+                                <span class="metric-icon emerald">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 14 14"/></svg>
+                                </span>
+                            </div>
+                            <div class="metric-value" id="metric-remaining-capacity">--</div>
+                            <div class="metric-footer">Available admission slots</div>
+                        </div>
+
+                        <div class="metric-card">
+                            <div class="metric-header">
+                                <span class="metric-label">WAITING IN QUEUES</span>
+                                <span class="metric-icon amber">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+                                </span>
+                            </div>
+                            <div class="metric-value" id="metric-queue-count">--</div>
+                            <div class="metric-footer" id="metric-active-gates">-- active gates</div>
+                        </div>
+                    </div>
+
+                    <!-- Telemetry Progress and Gate Lanes -->
+                    <div class="dashboard-panels">
+                        <div class="panel-card flex-2">
+                            <div class="card-title-bar">
+                                <h3>Venue Admission Progress</h3>
+                                <span class="badge badge-subtle" id="badge-venue-name">Bayfront Grand Arena</span>
+                            </div>
+                            <div class="progress-section">
+                                <div class="progress-bar-container">
+                                    <div class="progress-fill" id="occupancy-progress-bar" style="width: 0%"></div>
+                                </div>
+                                <div class="progress-stats">
+                                    <span id="progress-admitted-detail">0 Admitted</span>
+                                    <span id="progress-percentage-detail">0%</span>
+                                    <span id="progress-remaining-detail">0 Remaining</span>
+                                </div>
+                            </div>
+
+                            <div class="stats-row">
+                                <div class="stat-box">
+                                    <span class="stat-number emerald" id="stat-successful-admissions">0</span>
+                                    <span class="stat-label">Successful Entries</span>
+                                </div>
+                                <div class="stat-box">
+                                    <span class="stat-number coral" id="stat-rejected-admissions">0</span>
+                                    <span class="stat-label">Rejected Attempts</span>
+                                </div>
+                                <div class="stat-box">
+                                    <span class="stat-number blue" id="stat-total-attempts">0</span>
+                                    <span class="stat-label">Total Validations</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="panel-card flex-1">
+                            <div class="card-title-bar">
+                                <h3>Active Entry Gates</h3>
+                                <button class="btn-link" id="link-goto-gates">Manage Gates &rarr;</button>
+                            </div>
+                            <div class="gates-mini-list" id="dashboard-gates-list">
+                                <!-- Populated dynamically -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Admissions Feed -->
+                    <div class="panel-card mt-4">
+                        <div class="card-title-bar">
+                            <h3>Live Admission Activity Stream</h3>
+                            <button class="btn-link" id="link-goto-history">Full History &rarr;</button>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="data-table" id="table-recent-admissions">
+                                <thead>
+                                    <tr>
+                                        <th>Timestamp</th>
+                                        <th>Attendee</th>
+                                        <th>Ticket Code</th>
+                                        <th>Gate</th>
+                                        <th>Outcome</th>
+                                        <th>Reason / Details</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Populated dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- VIEW 2: EVENT OVERVIEW -->
+                <section class="view-panel" id="view-events">
+                    <div class="view-header">
+                        <div>
+                            <h1 class="view-title">Event Operations Configuration</h1>
+                            <p class="view-subtitle">Event specifications, ticket tiers, gate assignments, and seating mode.</p>
+                        </div>
+                    </div>
+
+                    <div class="event-details-card" id="event-details-card">
+                        <!-- Populated dynamically -->
+                    </div>
+
+                    <div class="panel-card mt-4">
+                        <div class="card-title-bar">
+                            <h3>Configured Ticket Categories & Capacities</h3>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="data-table" id="table-ticket-categories">
+                                <thead>
+                                    <tr>
+                                        <th>Tier Name</th>
+                                        <th>Designation</th>
+                                        <th>Seating Mode</th>
+                                        <th>Priority Gate Access</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Populated dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- VIEW 3: TICKET VALIDATION WORKSPACE -->
+                <section class="view-panel" id="view-validation">
+                    <div class="view-header">
+                        <div>
+                            <h1 class="view-title">Ticket Validation & Gate Check-In</h1>
+                            <p class="view-subtitle">High-speed attendee scanning, credential verification, and admission authorization.</p>
+                        </div>
+                    </div>
+
+                    <div class="validation-layout">
+                        <!-- Left Panel: Ticket Scanner Input -->
+                        <div class="panel-card flex-1">
+                            <div class="card-title-bar">
+                                <h3>Scan or Enter Ticket Code</h3>
+                                <span class="badge badge-primary">SCANNER READY</span>
+                            </div>
+
+                            <form id="form-validate-ticket" class="ticket-input-form">
+                                <div class="form-group">
+                                    <label for="input-ticket-code" class="form-label">TICKET IDENTIFIER / CODE</label>
+                                    <div class="input-with-action">
+                                        <input type="text" id="input-ticket-code" class="form-control" placeholder="e.g. EW-1001-VIP" autocomplete="off" required>
+                                        <button type="submit" class="btn btn-primary" id="btn-submit-validate">
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+                                            <span class="btn-text">Validate</span>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="select-validation-gate" class="form-label">ASSIGNED ENTRY GATE</label>
+                                    <select id="select-validation-gate" class="form-control">
+                                        <!-- Populated dynamically -->
+                                    </select>
+                                </div>
+                            </form>
+
+                            <div class="quick-test-scenarios">
+                                <span class="quick-scenarios-label">QUICK TEST CODES:</span>
+                                <div class="scenario-chips">
+                                    <button class="chip" data-code="EW-1001-VIP" data-gate="GATE-01">Elena (VIP at Gate 1)</button>
+                                    <button class="chip" data-code="EW-1002-VIP" data-gate="GATE-02">Liam (Already Checked In)</button>
+                                    <button class="chip" data-code="EW-1004-STD" data-gate="GATE-03">David (Standard at Gate 3)</button>
+                                    <button class="chip" data-code="EW-9999-CAN" data-gate="GATE-01">Noah (Cancelled Ticket)</button>
+                                    <button class="chip" data-code="EW-8888-SUS" data-gate="GATE-01">Olivia (Suspended Ticket)</button>
+                                    <button class="chip" data-code="EW-UNKNOWN-99" data-gate="GATE-01">Invalid / Unknown Code</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right Panel: Validation Result Inspector -->
+                        <div class="panel-card flex-1" id="validation-result-card">
+                            <div class="empty-state" id="validation-empty-state">
+                                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
+                                </svg>
+                                <h4>Awaiting Ticket Input</h4>
+                                <p>Scan a ticket barcode or enter a ticket identifier to verify admission validity.</p>
+                            </div>
+
+                            <div class="validation-details-container" id="validation-details-container" style="display: none;">
+                                <div class="result-status-banner" id="result-status-banner">
+                                    <div class="status-banner-content">
+                                        <div class="banner-icon" id="banner-icon"></div>
+                                        <div>
+                                            <h2 class="status-title" id="banner-status-title">VALID FOR ADMISSION</h2>
+                                            <p class="status-subtitle" id="banner-status-message">All credentials verified against event roster.</p>
+                                        </div>
+                                    </div>
+                                    <div class="status-pill" id="banner-status-pill">VALID</div>
+                                </div>
+
+                                <div class="attendee-docket-grid">
+                                    <div class="docket-item">
+                                        <span class="docket-label">ATTENDEE NAME</span>
+                                        <span class="docket-value" id="docket-attendee-name">--</span>
+                                    </div>
+                                    <div class="docket-item">
+                                        <span class="docket-label">EMAIL ADDRESS</span>
+                                        <span class="docket-value" id="docket-attendee-email">--</span>
+                                    </div>
+                                    <div class="docket-item">
+                                        <span class="docket-label">TICKET TIER</span>
+                                        <span class="docket-value" id="docket-ticket-tier">--</span>
+                                    </div>
+                                    <div class="docket-item">
+                                        <span class="docket-label">ASSIGNED SEAT</span>
+                                        <span class="docket-value highlight-cyan" id="docket-assigned-seat">--</span>
+                                    </div>
+                                </div>
+
+                                <div class="action-footer">
+                                    <button class="btn btn-primary btn-large btn-block" id="btn-admit-attendee">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><polyline points="17 11 19 13 23 9"/></svg>
+                                        <span class="btn-text">Authorize & Record Admission</span>
+                                    </button>
+                                </div>
+                    </div>
+
+                    <!-- Seeded Test Data Reference Table -->
+                    <div class="panel-card mt-4">
+                        <div class="card-title-bar">
+                            <h3>Seeded Test Tickets & Verification Roster</h3>
+                            <span class="badge badge-subtle">DEMO SCENARIO DATA</span>
+                        </div>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 14px;">
+                            Use these seeded tickets to verify admission validation, gate category restrictions, duplicate scanning, and cancellations.
+                        </p>
+                        <div class="table-responsive">
+                            <table class="data-table" id="table-seed-tickets">
+                                <thead>
+                                    <tr>
+                                        <th>Ticket Code</th>
+                                        <th>Attendee Name</th>
+                                        <th>Tier</th>
+                                        <th>Event ID</th>
+                                        <th>Assigned Gate</th>
+                                        <th>Initial State</th>
+                                        <th>Test Purpose / Scenario</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><code>EW-1001-VIP</code></td>
+                                        <td>Elena Rostova</td>
+                                        <td><span class="badge badge-primary">VIP</span></td>
+                                        <td>EVT-101</td>
+                                        <td>GATE-01 (Main North)</td>
+                                        <td><span class="badge badge-success">ACTIVE / PENDING</span></td>
+                                        <td>Valid ticket testing gate restriction logic at Gate 1</td>
+                                        <td><button class="btn btn-sm btn-secondary chip-load" data-code="EW-1001-VIP" data-gate="GATE-01">Load Code</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>EW-1002-VIP</code></td>
+                                        <td>Liam Chen</td>
+                                        <td><span class="badge badge-primary">VIP</span></td>
+                                        <td>EVT-101</td>
+                                        <td>GATE-02 (VIP Gate)</td>
+                                        <td><span class="badge badge-warning">CHECKED_IN</span></td>
+                                        <td>Already admitted ticket (tests duplicate rejection)</td>
+                                        <td><button class="btn btn-sm btn-secondary chip-load" data-code="EW-1002-VIP" data-gate="GATE-02">Load Code</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>EW-1003-PREM</code></td>
+                                        <td>Chloe Bennett</td>
+                                        <td><span class="badge badge-info">PREMIUM</span></td>
+                                        <td>EVT-101</td>
+                                        <td>GATE-01 (Main North)</td>
+                                        <td><span class="badge badge-warning">CHECKED_IN</span></td>
+                                        <td>Already admitted premium ticket</td>
+                                        <td><button class="btn btn-sm btn-secondary chip-load" data-code="EW-1003-PREM" data-gate="GATE-01">Load Code</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>EW-1004-STD</code></td>
+                                        <td>David Miller</td>
+                                        <td><span class="badge badge-subtle">STANDARD</span></td>
+                                        <td>EVT-101</td>
+                                        <td>GATE-03 (West General)</td>
+                                        <td><span class="badge badge-success">ACTIVE / PENDING</span></td>
+                                        <td>In Queue Sequence #1 at Gate 3 & Gate 1</td>
+                                        <td><button class="btn btn-sm btn-secondary chip-load" data-code="EW-1004-STD" data-gate="GATE-03">Load Code</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>EW-1005-STD</code></td>
+                                        <td>Sarah Jenkins</td>
+                                        <td><span class="badge badge-subtle">STANDARD</span></td>
+                                        <td>EVT-101</td>
+                                        <td>GATE-03 (West General)</td>
+                                        <td><span class="badge badge-success">ACTIVE / PENDING</span></td>
+                                        <td>In Queue Sequence #2 at Gate 3 & Gate 1</td>
+                                        <td><button class="btn btn-sm btn-secondary chip-load" data-code="EW-1005-STD" data-gate="GATE-03">Load Code</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>EW-1006-VIP</code></td>
+                                        <td>Marcus Vance</td>
+                                        <td><span class="badge badge-primary">VIP</span></td>
+                                        <td>EVT-101</td>
+                                        <td>GATE-02 (VIP Gate)</td>
+                                        <td><span class="badge badge-success">ACTIVE / PENDING</span></td>
+                                        <td>Valid VIP ticket for testing capacity metric increment</td>
+                                        <td><button class="btn btn-sm btn-secondary chip-load" data-code="EW-1006-VIP" data-gate="GATE-02">Load Code</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>EW-9999-CAN</code></td>
+                                        <td>Noah Wilson</td>
+                                        <td><span class="badge badge-subtle">STANDARD</span></td>
+                                        <td>EVT-101</td>
+                                        <td>GATE-01</td>
+                                        <td><span class="badge badge-danger">CANCELLED</span></td>
+                                        <td>Tests cancelled ticket rejection</td>
+                                        <td><button class="btn btn-sm btn-secondary chip-load" data-code="EW-9999-CAN" data-gate="GATE-01">Load Code</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>EW-8888-SUS</code></td>
+                                        <td>Olivia Reed</td>
+                                        <td><span class="badge badge-subtle">STANDARD</span></td>
+                                        <td>EVT-101</td>
+                                        <td>GATE-01</td>
+                                        <td><span class="badge badge-danger">SUSPENDED</span></td>
+                                        <td>Tests suspended ticket rejection</td>
+                                        <td><button class="btn btn-sm btn-secondary chip-load" data-code="EW-8888-SUS" data-gate="GATE-01">Load Code</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>EW-2001-GA</code></td>
+                                        <td>Sophia Turner</td>
+                                        <td><span class="badge badge-subtle">GENERAL_ADMISSION</span></td>
+                                        <td>EVT-102</td>
+                                        <td>GATE-04 (Expo Hall A)</td>
+                                        <td><span class="badge badge-success">ACTIVE / PENDING</span></td>
+                                        <td>General admission event ticket</td>
+                                        <td><button class="btn btn-sm btn-secondary chip-load" data-code="EW-2001-GA" data-gate="GATE-04">Load Code</button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- VIEW 4: INTERACTIVE SEATING LAYOUT -->
+                <section class="view-panel" id="view-seating">
+                    <div class="view-header">
+                        <div>
+                            <h1 class="view-title">Interactive Venue Seating</h1>
+                            <p class="view-subtitle">Section availability, seat reservation status, and real-time seat allocation.</p>
+                        </div>
+                        <div class="header-actions">
+                            <button class="btn btn-secondary" id="btn-allocate-seat">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+                                <span class="btn-text">Auto-Allocate VIP Seat</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Seating Legend -->
+                    <div class="seating-legend-bar">
+                        <div class="legend-item"><span class="seat-sample available"></span> Available</div>
+                        <div class="legend-item"><span class="seat-sample reserved"></span> Reserved</div>
+                        <div class="legend-item"><span class="seat-sample occupied"></span> Occupied</div>
+                    </div>
+
+                    <div class="seating-layout-wrapper">
+                        <!-- Stage Display -->
+                        <div class="stage-banner">
+                            <span>MAIN PERFORMANCE STAGE / AUDITORIUM PODIUM</span>
+                        </div>
+
+                        <!-- Seating Grid -->
+                        <div class="seating-sections" id="seating-sections-container">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+
+                    <!-- Seat Details Inspector Modal / Drawer -->
+                    <div class="seat-inspector-panel" id="seat-inspector-panel" style="display: none;">
+                        <div class="inspector-header">
+                            <h3 id="inspector-seat-label">Seat Details</h3>
+                            <button class="btn-icon" id="btn-close-inspector">&times;</button>
+                        </div>
+                        <div class="inspector-body" id="inspector-seat-body">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+                </section>
+
+                <!-- VIEW 5: GATE & QUEUE OPERATIONS -->
+                <section class="view-panel" id="view-gates">
+                    <div class="view-header">
+                        <div>
+                            <h1 class="view-title">Gate Operations & Crowd Queue Management</h1>
+                            <p class="view-subtitle">Live queue order, priority tier management, waiting latency, and gate throughput.</p>
+                        </div>
+                        <div class="header-actions">
+                            <button class="btn btn-primary" id="btn-process-next-attendee">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                                <span class="btn-text">Process Next Attendee</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Gate Selector Tabs -->
+                    <div class="gate-selection-tabs" id="gate-selection-tabs">
+                        <!-- Populated dynamically -->
+                    </div>
+
+                    <!-- Selected Gate Status Card -->
+                    <div class="gate-status-banner mt-3" id="selected-gate-banner">
+                        <div class="gate-info-block">
+                            <h2 class="gate-title" id="banner-gate-name">Gate 1 — Main North Plaza</h2>
+                            <p class="gate-desc" id="banner-gate-allowed">Allowed Tiers: Unrestricted (All Categories)</p>
+                        </div>
+                        <div class="gate-actions-block">
+                            <span class="gate-state-badge" id="banner-gate-status">OPEN</span>
+                            <div class="btn-group">
+                                <button class="btn btn-sm btn-secondary" id="btn-gate-toggle-open">Set Open</button>
+                                <button class="btn btn-sm btn-secondary" id="btn-gate-toggle-paused">Set Paused</button>
+                                <button class="btn btn-sm btn-secondary" id="btn-gate-toggle-closed">Set Closed</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Queue Lane Visualization -->
+                    <div class="panel-card mt-4">
+                        <div class="card-title-bar">
+                            <h3>Queue Lane Visualization (Order of Admission)</h3>
+                            <span class="badge badge-info" id="badge-queue-count">0 Waiting</span>
+                        </div>
+
+                        <div class="queue-lanes-container" id="queue-lanes-container">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+                </section>
+
+                <!-- VIEW 6: ATTENDEE & CHECK-IN HISTORY -->
+                <section class="view-panel" id="view-history">
+                    <div class="view-header">
+                        <div>
+                            <h1 class="view-title">Attendee Admission Log & Records</h1>
+                            <p class="view-subtitle">Complete audit trail of all successful admissions, gate rejections, and reversible check-ins.</p>
+                        </div>
+                    </div>
+
+                    <div class="panel-card">
+                        <div class="filters-row">
+                            <div class="form-group flex-2">
+                                <input type="text" id="input-search-history" class="form-control" placeholder="Search by attendee name or ticket code...">
+                            </div>
+                            <div class="form-group flex-1">
+                                <select id="filter-history-outcome" class="form-control">
+                                    <option value="ALL">All Outcomes</option>
+                                    <option value="ADMITTED">Admitted Only</option>
+                                    <option value="REJECTED">Rejections Only</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="table-responsive mt-3">
+                            <table class="data-table" id="table-full-history">
+                                <thead>
+                                    <tr>
+                                        <th>Record ID</th>
+                                        <th>Timestamp</th>
+                                        <th>Attendee Name</th>
+                                        <th>Ticket Code</th>
+                                        <th>Gate ID</th>
+                                        <th>Admission Outcome</th>
+                                        <th>Details / Rejection Reason</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Populated dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <script src="js/app.js?v=outseta"></script>
+</body>
+</html>

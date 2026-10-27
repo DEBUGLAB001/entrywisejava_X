@@ -1,0 +1,23 @@
+{
+  "challenge_id": "entrywise-java-challenge",
+  "title": "EntryWise — Intelligent Event Entry & Crowd Management Platform",
+  "description": "An intelligent event-entry and crowd-management platform for ticket validation, seating allocation, entry queue management, attendee check-in, and live operational monitoring.",
+  "runtime_config": {
+    "runtime_type": "java-spring",
+    "install_command": "mvn package -DskipTests -B",
+    "start_command": "./start.sh",
+    "test_command": "tests/run_tests.sh",
+    "ports": [
+      {
+        "container_port": 3000,
+        "type": "preview"
+      }
+    ]
+  },
+  "bug_topics": [
+    "Priority Queue Comparator Ordering",
+    "Seating Candidate Filtering",
+    "Gate Category Eligibility Validation",
+    "Admission Capacity Synchronization"
+  ]
+}
