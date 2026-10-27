@@ -45,19 +45,20 @@ Issue 4: Remaining Capacity Neglects Admitted Attendees
 3. Unrestricted general gates welcome all valid event ticket tiers without false rejections.
 4. Remaining capacity numbers decrease dynamically with every successful admission.
 
+
 ## Seed Data Reference
 
-A comprehensive directory of seeded events, gate rules, seating maps, and attendee records is available in [SEED_DATA.md](SEED_DATA.md).
+Use these seeded ticket identifiers and scenarios to test validation, gate routing, and seating workflows directly in the application:
 
-Quick ticket codes for testing in the Ticket Validator:
-
-| Ticket Code | Attendee Name | Tier | Gate | Test Scenario |
-| :--- | :--- | :--- | :--- | :--- |
-| `EW-1001-VIP` | Elena Rostova | VIP | Gate 1 | Unrestricted gate access test (Bug 3) |
-| `EW-1002-VIP` | Liam Chen | VIP | Gate 2 | Duplicate check-in rejection |
-| `EW-1004-STD` | David Miller | Standard | Gate 3 | Automated seat allocation test (Bug 2) |
-| `EW-1005-STD` | Sarah Jenkins | Standard | Gate 3 | Queue priority arrival ordering (Bug 1) |
-| `EW-1006-VIP` | Marcus Vance | VIP | Gate 1 | VIP priority queue lane jump |
-| `EW-9999-CAN` | Noah Wilson | Standard | Gate 1 | Cancelled ticket rejection |
-
-For full seating charts, gate definitions, and queue states, refer to [SEED_DATA.md](SEED_DATA.md).
+| Ticket Code | Attendee Name | Ticket Tier | Assigned Event | Recommended Gate | Initial Status | Test Scenario / Purpose |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| `EW-1001-VIP` | Elena Rostova | VIP | EVT-101 | Gate 1 (Main North) | Active / Pending | Valid VIP ticket testing unrestricted gate access at Gate 1. |
+| `EW-1002-VIP` | Liam Chen | VIP | EVT-101 | Gate 2 (VIP FastTrack) | Checked In | Duplicate entry verification; tests rejection of already admitted tickets. |
+| `EW-1003-PREM` | Chloe Bennett | Premium | EVT-101 | Gate 1 (Main North) | Checked In | Duplicate entry verification for premium tier attendees. |
+| `EW-1004-STD` | David Miller | Standard | EVT-101 | Gate 3 (West General) | Active / Pending | Standard ticket awaiting seat assignment; tests seat allocation integrity. |
+| `EW-1005-STD` | Sarah Jenkins | Standard | EVT-101 | Gate 3 (West General) | Active / Pending | Position 2 in queue lane; tests FIFO queue progression against David Miller. |
+| `EW-1006-VIP` | Marcus Vance | VIP | EVT-101 | Gate 1 (Main North) | Active / Pending | VIP ticket in queue sequence 3; tests priority lane jump over standard tiers. |
+| `EW-9999-CAN` | Noah Wilson | Standard | EVT-101 | Gate 1 (Main North) | Cancelled | Ticket validity testing; verifies immediate rejection of cancelled credentials. |
+| `EW-8888-SUS` | Olivia Reed | Standard | EVT-101 | Gate 1 (Main North) | Suspended | Security verification; verifies security rejection of suspended tickets. |
+| `EW-2001-GA` | Sophia Turner | General Admission | EVT-102 | Gate 4 (Expo Hall A) | Active / Pending | Cross-event verification; tests event mismatch rejection when scanned at EVT-101. |
+| `EW-UNKNOWN-99` | Unknown | Unknown | — | Gate 1 (Main North) | Invalid | Unknown barcode verification; tests 404 credential not found handling. |
